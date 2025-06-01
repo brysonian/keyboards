@@ -180,6 +180,10 @@ pcbs:
       main:
         outline: board
     footprints:
+      hole_top_left:
+        what: mountinghole
+        where:
+          ref: [matrix_pinkie_top]
       choc_hotswap:
         what: choc
         where: true
@@ -198,9 +202,9 @@ pcbs:
         adjust:
           shift: [0, -5]
       controller:
-        what: promicro
+        what: feather-rp2040
         params:
-          orientation: "down"
+          mounting: false
         where:
           ref.aggregate.parts: [matrix_inner_bottom, mirror_matrix_inner_bottom]
           shift: [0,0]
