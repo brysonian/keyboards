@@ -180,10 +180,6 @@ pcbs:
       main:
         outline: board
     footprints:
-      hole_top_left:
-        what: mountinghole
-        where:
-          ref: [matrix_pinkie_top]
       choc_hotswap:
         what: choc
         where: true
@@ -202,10 +198,45 @@ pcbs:
         adjust:
           shift: [0, -5]
       controller:
-        what: feather-rp2040
+        what: feather_rp2040
         params:
-          mounting: false
+          mounting: true
         where:
           ref.aggregate.parts: [matrix_inner_bottom, mirror_matrix_inner_bottom]
           shift: [0,0]
           rotate: -90
+      hole_top_left:
+        what: mountinghole
+        where:
+          ref: [matrix_pinkie_top]
+          shift: [11, 10]
+      hole_bottom_left:
+        what: mountinghole
+        where:
+          ref: [matrix_middle_bottom]
+          shift: [0, -0.8ky]
+      hole_bottom_inner_left:
+        what: mountinghole
+        where:
+          ref: [thumb_space_cluster]
+          shift: [-0.3kx, -0.8ky]
+      hole_center:
+        what: mountinghole
+        where:
+          ref.aggregate.parts: [matrix_inner_top, mirror_matrix_inner_top]
+          shift: [0kx, 0.3ky]
+      hole_top_right:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_pinkie_top]
+          shift: [11, 10]
+      hole_bottom_right:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_middle_bottom]
+          shift: [0, -0.8ky]
+      hole_bottom_inner_right:
+        what: mountinghole
+        where:
+          ref: [mirror_thumb_space_cluster]
+          shift: [-0.3kx, -0.8ky]
