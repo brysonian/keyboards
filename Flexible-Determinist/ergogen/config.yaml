@@ -1,3 +1,6 @@
+#
+# Config File for the Flexible Determinist keyboard
+#
 units:
   # Proxy Spacing Variables
   kx: cx
@@ -5,6 +8,7 @@ units:
   # Padding Variables
   px: kx + 4
   py: ky + 4
+  standoff: 2.5
   $default_width: cx
   $default_height: cy
 
@@ -20,39 +24,39 @@ points:
         spread: 1kx
       rows:
         bottom:
-          row_net: P19
-          mirror.row_net: P2
+          row_net: D10
+          mirror.row_net: A1
         middle:
-          row_net: P20
-          mirror.row_net: P0
+          row_net: D6
+          mirror.row_net: D24
         top:
-          row_net: P21
-          mirror.row_net: P1
+          row_net: D5
+          mirror.row_net: D25
       columns:
         pinkie:
           key:
-            column_net: P7
+            column_net: A2
             splay: 10
         ring:
           key:
-            column_net: P6
+            column_net: A3
             stagger: 12
             splay: -6
             spread: kx+2
         middle:
           key:
-            column_net: P5
+            column_net: D11
             stagger: 8
             splay: -4
             spread: kx+2
         index:
           key:
-            column_net: P4
+            column_net: D12
             stagger: -8
             spread: kx
         inner:
           key:
-            column_net: P3
+            column_net: D9
             stagger: -4
             spread: kx
     thumb:
@@ -64,29 +68,30 @@ points:
         shift: [14, -32]
       rows:
         cluster:
-          row_net: P10
-          mirror.row_net: P9
+          row_net: D13
+          mirror.row_net: A0
       columns:
         outer:
-          key.column_net: P8
+          key.column_net: D11
         mod:
           key:
-            column_net: P8
+            column_net: D12
             splay: -15
             spread: kx+1.5
             shift: [2, -2.25]
         space:
           key:
-            column_net: P8
+            column_net: D9
             splay: -10
             spread: kx+1.5
             shift: [3, 1]
             height: 1.5kx
   mirror: &mirror
     ref: matrix_inner_top
-    distance: 2kx
+    distance: 2.1kx
 
 outlines:
+  format: svg
   raw:
     - what: rectangle
       where: true
@@ -119,8 +124,8 @@ outlines:
           shift: [-0.25px, 0.6py]
 
 # center point
-        - ref: mirror_matrix_inner_top
-          shift: [0.61px, 0.83py]
+        - ref.aggregate.parts: [matrix_inner_top, mirror_matrix_inner_top]
+          shift: [0, 0.6py]
 
 # mirror
         - ref: mirror_matrix_index_top
@@ -154,8 +159,9 @@ outlines:
         - ref: mirror_thumb_space_cluster
           shift: [0.6px, -0.55py]
 
-        - ref: mirror_thumb_space_cluster
-          shift: [0.75px, 0.5py]
+  # bottom center
+        - ref.aggregate.parts: [thumb_space_cluster, mirror_thumb_space_cluster]
+          shift: [0, 0]
 
         - ref: thumb_space_cluster
           shift: [0.6px, -0.55py]
@@ -170,10 +176,50 @@ outlines:
           shift: [0.6px, -0.6py]
         - ref: matrix_pinkie_bottom
           shift: [-0.6px, -0.6py]
+
+  mounting:
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [matrix_pinkie_top]
+        shift: [11, 10]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [matrix_middle_bottom]
+        shift: [0, -0.8ky]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [thumb_space_cluster]
+        shift: [-0.3kx, -0.8ky]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref.aggregate.parts: [matrix_inner_top, mirror_matrix_inner_top]
+        shift: [0kx, 0.3ky]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [mirror_matrix_pinkie_top]
+        shift: [11, 10]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [mirror_matrix_middle_bottom]
+        shift: [0, -0.8ky]
+    - what: circle
+      radius: 1standoff
+      where:
+        ref: [mirror_thumb_space_cluster]
+        shift: [-0.3kx, -0.8ky]
+
   combo:
     - name: board
     - operation: subtract
       name: keys
+    - operation: add
+      name: mounting
 pcbs:
   flexible-determinist:
     outlines:
@@ -203,8 +249,8 @@ pcbs:
           mounting: true
         where:
           ref.aggregate.parts: [matrix_inner_bottom, mirror_matrix_inner_bottom]
-          shift: [0,0]
-          rotate: -90
+          shift: [0,-1]
+          rotate: 90
       hole_top_left:
         what: mountinghole
         where:
@@ -240,3 +286,17 @@ pcbs:
         where:
           ref: [mirror_thumb_space_cluster]
           shift: [-0.3kx, -0.8ky]
+cases:
+  _mounting:
+    - name: mounting
+      extrude: 4
+  bottom:
+    - name: board
+      extrude: 2
+  case:
+    - what: case
+      name: bottom
+      operation: add
+    - what: case
+      name: _mounting
+      operation: add
