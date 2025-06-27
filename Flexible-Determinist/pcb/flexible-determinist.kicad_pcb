@@ -7164,7 +7164,7 @@
 			(uuid "8b09447b-c432-4a8d-9410-1d424b7f6371")
 		)
 		(fp_line
-			(start -5.999997 -7.000002)
+			(start -5.999997 -7.000001)
 			(end -7 -7)
 			(stroke
 				(width 0.15)
@@ -7185,7 +7185,7 @@
 		)
 		(fp_line
 			(start -7 7)
-			(end -7.000002 5.999997)
+			(end -7.000001 5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -7215,7 +7215,7 @@
 		)
 		(fp_line
 			(start 7 -7)
-			(end 7.000002 -5.999997)
+			(end 7.000001 -5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -7234,7 +7234,7 @@
 			(uuid "9eec8af9-7c3c-4aa3-8704-bab5a6342dc9")
 		)
 		(fp_line
-			(start 5.999997 7.000002)
+			(start 5.999997 7.000001)
 			(end 7 7)
 			(stroke
 				(width 0.15)
@@ -14255,7 +14255,7 @@
 			(uuid "63d3bc7c-c7d4-40f8-8de6-8579ffac3426")
 		)
 		(fp_line
-			(start -5.999997 -7.000002)
+			(start -5.999997 -7.000001)
 			(end -7 -7)
 			(stroke
 				(width 0.15)
@@ -14276,7 +14276,7 @@
 		)
 		(fp_line
 			(start -7 7)
-			(end -7.000002 5.999997)
+			(end -7.000001 5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -14306,7 +14306,7 @@
 		)
 		(fp_line
 			(start 7 -7)
-			(end 7.000002 -5.999997)
+			(end 7.000001 -5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -14325,7 +14325,7 @@
 			(uuid "b92d8c21-71fd-4519-9c61-18406690fbb7")
 		)
 		(fp_line
-			(start 5.999997 7.000002)
+			(start 5.999997 7.000001)
 			(end 7 7)
 			(stroke
 				(width 0.15)
@@ -15888,7 +15888,7 @@
 			(uuid "b7f7e5cd-24be-440a-8808-5f960c36f313")
 		)
 		(fp_line
-			(start -5.999997 -7.000002)
+			(start -5.999997 -7.000001)
 			(end -7 -7)
 			(stroke
 				(width 0.15)
@@ -15909,7 +15909,7 @@
 		)
 		(fp_line
 			(start -7 7)
-			(end -7.000002 5.999997)
+			(end -7.000001 5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -15939,7 +15939,7 @@
 		)
 		(fp_line
 			(start 7 -7)
-			(end 7.000002 -5.999997)
+			(end 7.000001 -5.999997)
 			(stroke
 				(width 0.15)
 				(type solid)
@@ -15958,7 +15958,7 @@
 			(uuid "a243a5c0-0b87-43f2-bd6d-2feac53051a4")
 		)
 		(fp_line
-			(start 5.999997 7.000002)
+			(start 5.999997 7.000001)
 			(end 7 7)
 			(stroke
 				(width 0.15)
