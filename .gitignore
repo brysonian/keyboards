@@ -1,3 +1,4 @@
 .DS_Store
 **/*-backups
 *.kicad_pcb.lck
+**/ergogen/output/pcbs

@@ -91,7 +91,7 @@ points:
     distance: 2.1kx
 
 outlines:
-  format: svg
+  # format: svg
   raw:
     - what: rectangle
       where: true
@@ -218,7 +218,7 @@ outlines:
     - name: board
     - operation: subtract
       name: keys
-    - operation: add
+    - operation: subtract
       name: mounting
 pcbs:
   flexible-determinist:
