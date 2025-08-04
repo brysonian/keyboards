@@ -1,3 +1,5 @@
+# type: ignore[reportMissingImports]
+
 print(" ------- Starting ---------")
 
 import board
