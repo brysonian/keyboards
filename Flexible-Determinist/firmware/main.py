@@ -1,4 +1,4 @@
-print("Starting BLE Flexible Determinist")
+print(" ------- Starting ---------")
 
 import board
 
@@ -6,78 +6,81 @@ from kmk.kmk_keyboard import KMKKeyboard
 from kmk.keys import KC
 from kmk.scanners import DiodeOrientation
 from kmk.hid import HIDModes
+from kmk.extensions.RGB import RGB
+from kmk.extensions.rgb import AnimationModes
 from kmk.modules.layers import Layers
-from kmk.modules.tapdance import TapDance
+from kmk.modules.combos import Combos, Chord
 
+
+# SETUP THE MATRIX
 keyboard = KMKKeyboard()
 keyboard.diode_orientation = DiodeOrientation.COL2ROW
 keyboard.col_pins = (board.A2, board.A3, board.D11, board.D12, board.D9)
 keyboard.row_pins = (board.D5, board.D6, board.D10, board.D13, board.A5, board.A4, board.A1, board.A0)
 
-keyboard.modules.append(Layers())
-keyboard.modules.append(TapDance())
-
-# ,,,,,,,,,,,,,,,,,,,,,,,,          
-
-TO_ZERO = KC.TO(0)
-TO_ONE = KC.TO(1)
-SPACE_DOT = KC.TD(KC.SPACE, KC.DOT)
-
-keyboard.keymap = [
-  [
-#╭──────────┬──────────┬──────────┬──────────┬──────────╮
-#│    Q     │    W     │    E     │    R     │    T     │
-    KC.Q,      KC.W,      KC.E,      KC.R,      KC.T,    
-#├──────────┼──────────┼──────────┼──────────┼──────────┤
-#│    A     │    S     │    D     │    F     │    G     │
-    KC.A,      KC.S,      KC.D,      KC.F,      KC.G,
-#├──────────┼──────────┼──────────┼──────────┼──────────┤
-#│    Z     │    X     │    C     │    V     │    B     │
-    KC.Z,       KC.X,      KC.C,     KC.V,       KC.B,   
-#╰──────────┴──────────┼──────────┼──────────┼──────────┤
-#                      │  LAYER   │  SHIFT   │  ENTER   │
-    KC.NO,      KC.NO,    TO_ONE,   KC.LSHIFT, KC.ENTER,
-#                      ╰──────────┴──────────┴──────────╯
-
-# RIGHT MIRROR
-#╭──────────┬──────────┬──────────┬──────────┬──────────╮
-#│    P     │    O     │    I     │    U     │    Y     │
-    KC.P,      KC.O,      KC.I,      KC.U,      KC.Y,    
-#├──────────┼──────────┼──────────┼──────────┼──────────┤
-#│    "     │    L     │    K     │    J     │    H     │
-   KC.QUOTE,    KC.L,     KC.K,      KC.J,      KC.H,
-#├──────────┼──────────┼──────────┼──────────┼──────────┤
-#│    /     │    .     │     ,    │    M     │    N     │
-   KC.SLASH,   KC.DOT,   KC.COMMA,   KC.M,      KC.N,   
-#╰──────────┴──────────┼──────────┼──────────┼──────────┤
-#                      │   TAB    │  BSPACE  │   SPACE  │
-    KC.NO,     KC.NO,    KC.TAB.    KC.BSPACE, SPACE_DOT,
-#                      ╰──────────┴──────────┴──────────╯
-  ]
-  # [
-  #   KC.Q, KC.W, KC.E, KC.R, KC.T,
-  #   KC.A, KC.S, KC.D, KC.F, KC.G,
-  #   KC.Z, KC.X, KC.C, KC.V, KC.B,   
-  #   KC.NO, KC.NO, TO_ONE, KC.LSHIFT, KC.ENTER,
-
-  #   KC.P, KC.O, KC.I, KC.U, KC.Y,
-  #   KC.QUOTE, KC.L, KC.K, KC.J, KC.H,
-  #   KC.SLASH, KC.DOT, KC.COMMA, KC.M, KC.N,
-  #   KC.NO, KC.NO, SPACE_DOT, KC.BSPACE, KC.TAB
-  # ],
-  [
-    KC.LBRACKET, KC.N1, KC.N2, KC.N3, KC.RBRACKET,
-    KC.SCOLON, KC.N4, KC.N5, KC.N6, KC.EQUAL,
-    KC.GRAVE, KC.N7, KC.N8, KC.N9, KC.BSLASH,
-    KC.NO, KC.NO, TO_ZERO, KC.N0, KC.TRANS,
-
-    KC.NO, KC.NO, KC.UP, KC.PGUP, KC.PGDOWN,
-    KC.NO, KC.RIGHT, KC.DOWN, KC.LEFT, KC.HOME,
-    KC.NO, KC.NO, KC.NO, KC.NO, KC.END,
-    KC.NO, KC.NO, KC.SPACE, KC.BSPACE, KC.NO
-  ]
+keyboard.coord_mapping = [
+ 0,  1,  2,  3,  4, 24, 23, 22, 21, 20,
+ 5,  6,  7,  8,  9, 29, 28, 27, 26, 25,
+10, 11, 12, 13, 14, 34, 33, 32, 31, 30,
+        17, 18, 19, 39, 38, 37
 ]
 
+rgb = RGB(
+    pixel_pin=board.NEOPIXEL,
+    num_pixels=1,
+    val_default=0,
+    animation_mode=AnimationModes.STATIC
+)
+keyboard.extensions.append(rgb)
+
+# LAYERS
+class RGBLayers(Layers):
+    def activate_layer(self, keyboard, layer, idx=None):
+        super().activate_layer(keyboard, layer, idx)
+        if layer == 0:
+            rgb.set_hsv_fill(0, 0, 0)
+            rgb.show()
+        else:
+            rgb.set_hsv_fill(195, 255, 5)
+            rgb.show()
+
+keyboard.modules.append(RGBLayers())
+TO_ZERO = KC.FD(0)
+TO_ONE = KC.FD(1)
+
+# MACROS
+DELETE_WORD = KC.LALT(KC.BSPACE)
+
+# CHORDS
+combos = Combos()
+combos.combos = [
+    Chord((KC.LSHIFT, KC.SPACE), KC.TAB, timeout=100),
+]
+keyboard.modules.append(combos)
+
+# KEYMAP
+keyboard.keymap = [
+#                                           LAYER 1
+[
+KC.Q,   KC.W,  KC.E,    KC.R,       KC.T,                KC.Y,       KC.U,       KC.I,       KC.O,   KC.P,
+KC.A,   KC.S,  KC.D,    KC.F,       KC.G,                KC.H,       KC.J,       KC.K,       KC.L,   KC.QUOTE,
+KC.Z,   KC.X,  KC.C,    KC.V,       KC.B,                KC.N,       KC.M,       KC.COMMA,   KC.DOT, KC.SLASH,    
+               TO_ONE,  KC.ENTER,   KC.RGB_TOG,          KC.SPACE,   KC.BSPACE,  DELETE_WORD
+],
+
+
+#                                           LAYER 2
+[
+
+KC.PGUP,   KC.HOME,  KC.UP,     KC.END,    KC.LCTL,      KC.EQL,   KC.N7,      KC.N8,    KC.N9,   KC.PSLS,
+KC.PGDOWN, KC.LEFT,  KC.DOWN,   KC.RIGHT,  KC.LALT,      KC.PAST,  KC.N4,      KC.N5,    KC.N6,   KC.PMNS,
+KC.LBRC,   KC.RBRC,  KC.BSLASH, KC.SCOLON, KC.TAB,       KC.N0,    KC.N1,      KC.N2,    KC.N3,   KC.PSLS,    
+                     TO_ZERO,   KC.ENTER,  KC.LSHIFT,    KC.SPACE, KC.BSPACE,  KC.DEL
+]
+]
+
+
 if __name__ == '__main__':
-    # keyboard.go()
-    keyboard.go(hid_type=HIDModes.BLE, ble_name='Flexible Determinist')
+    keyboard.go()
+    # keyboard.go(hid_type=HIDModes.BLE, ble_name='Flexible Determinist')
+
