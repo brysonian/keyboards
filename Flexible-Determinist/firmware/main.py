@@ -64,10 +64,10 @@ keyboard.modules.append(combos)
 keyboard.keymap = [
 #                                           LAYER 1
 [
-KC.Q,   KC.W,  KC.E,    KC.R,       KC.T,                KC.Y,       KC.U,       KC.I,       KC.O,   KC.P,
-KC.A,   KC.S,  KC.D,    KC.F,       KC.G,                KC.H,       KC.J,       KC.K,       KC.L,   KC.QUOTE,
-KC.Z,   KC.X,  KC.C,    KC.V,       KC.B,                KC.N,       KC.M,       KC.COMMA,   KC.DOT, KC.SLASH,    
-               TO_ONE,  KC.ENTER,   KC.RGB_TOG,          KC.SPACE,   KC.BSPACE,  DELETE_WORD
+KC.Q,      KC.W,     KC.E,      KC.R,      KC.T,         KC.Y,       KC.U,       KC.I,       KC.O,   KC.P,
+KC.A,      KC.S,     KC.D,      KC.F,      KC.G,         KC.H,       KC.J,       KC.K,       KC.L,   KC.QUOTE,
+KC.Z,      KC.X,     KC.C,      KC.V,      KC.B,         KC.N,       KC.M,       KC.COMMA,   KC.DOT, KC.SLASH,    
+                     TO_ONE,    KC.ENTER,  KC.RGB_TOG,   KC.SPACE,   KC.BSPACE,  DELETE_WORD
 ],
 
 
