@@ -213,7 +213,6 @@ outlines:
       where:
         ref: [mirror_thumb_space_cluster]
         shift: [-0.3kx, -0.8ky]
-
   combo:
     - name: board
     - operation: subtract

@@ -1,7 +1,5 @@
 # type: ignore[reportMissingImports]
 
-print(" ------- Starting ---------")
-
 import board
 
 from kmk.kmk_keyboard import KMKKeyboard
@@ -11,7 +9,7 @@ from kmk.hid import HIDModes
 from kmk.extensions.RGB import RGB
 from kmk.extensions.rgb import AnimationModes
 from kmk.modules.layers import Layers
-from kmk.modules.combos import Combos, Chord
+# from kmk.modules.combos import Combos, Chord
 from kmk.modules.holdtap import HoldTap
 
 
@@ -29,10 +27,11 @@ keyboard.coord_mapping = [
 ]
 
 rgb = RGB(
-    pixel_pin=board.NEOPIXEL,
-    num_pixels=1,
-    val_default=0,
-    animation_mode=AnimationModes.STATIC
+  pixel_pin=board.NEOPIXEL,
+  num_pixels=1,
+  val_default=0,
+  val_limit=100,
+  animation_mode=AnimationModes.STATIC
 )
 keyboard.extensions.append(rgb)
 
@@ -40,70 +39,98 @@ _____ = KC.NO
 
 # LAYERS
 class RGBLayers(Layers):
-    def activate_layer(self, keyboard, layer, idx=None):
-        super().activate_layer(keyboard, layer, idx)
-        if layer == 0:
-            rgb.set_hsv_fill(0, 0, 0)
-            rgb.show()
-        else:
-            rgb.set_hsv_fill(195, 255, 5)
-            rgb.show()
+  def activate_layer(self, keyboard, layer, idx=None):
+    super().activate_layer(keyboard, layer, idx)
+    if layer == 0:
+      rgb.set_hsv_fill(0, 0, 0)
+      rgb.show()
+    elif layer == 1:
+      rgb.set_hsv_fill(195, 255, 1)
+      rgb.show()
+    else:
+      rgb.set_hsv_fill(100, 255, 1)
+      rgb.show()
+
+  def deactivate_layer(self, keyboard, layer):
+    super().deactivate_layer(keyboard, layer)
+    rgb.set_hsv_fill(0, 0, 0)
+    rgb.show()
+
 
 keyboard.modules.append(RGBLayers())
-TO_ZERO = KC.FD(0)
-TO_ONE = KC.FD(1)
+TO_ALPHA = KC.MO(0)
+TO_NUM = KC.MO(1)
+TO_MOVE = KC.MO(2)
 
 # MACROS
 DELETE_WORD = KC.LALT(KC.BSPACE)
+WORD_LEFT = KC.LALT(KC.LEFT)
+WORD_RIGHT = KC.LALT(KC.RIGHT)
 
 # CHORDS
-combos = Combos()
-combos.combos = [
-    Chord((KC.LSHIFT, KC.SPACE), KC.TAB, timeout=100),
-]
-keyboard.modules.append(combos)
+# combos = Combos()
+# combos.combos = [
+#     Chord((KC.LSHIFT, KC.SPACE), KC.TAB, timeout=100),
+# ]
+# keyboard.modules.append(combos)
 
 # HOLD
 keyboard.modules.append(HoldTap())
+HOLD_Q_ESC = KC.HT(KC.Z, KC.ESC)
 HOLD_Z_SHIFT = KC.HT(KC.Z, KC.LSHIFT)
 HOLD_SLASH_SHIFT = KC.HT(KC.SLASH, KC.RSHIFT)
-HOLD_SPACE_GUI = KC.HT(KC.SPACE, KC.LGUI)
-HOLD_ENTER_OPT = KC.HT(KC.ENTER, KC.LALT)
 HOLD_BSPACE_DELWORD = KC.HT(KC.BSPACE, DELETE_WORD)
 
-# KEYMAP
-# [ ] arrows on bottom?
-# [x] command on space hold
-# [x] option on enter hold
-# \ move tab to right 2
-# \ hold p for backspace?
-# [ ] no "home" or "end"
+HOLD_S_LCTRL = KC.HT(KC.S, KC.LCTRL)
+HOLD_D_LALT = KC.HT(KC.D, KC.LALT)
+HOLD_F_LGUI = KC.HT(KC.F, KC.LGUI)
 
+HOLD_J_LGUI = KC.HT(KC.J, KC.LGUI)
+HOLD_K_LALT = KC.HT(KC.K, KC.LALT)
+HOLD_L_LCTRL = KC.HT(KC.L, KC.LCTRL)
+
+# KEYMAP
 
 keyboard.keymap = [
-#                                           LAYER 1
+#                                          ALPHA LAYER
 [
-KC.Q,        KC.W,     KC.E,      KC.R,      KC.T,         KC.Y,       KC.U,       KC.I,       KC.O,   KC.P,
-KC.A,        KC.S,     KC.D,      KC.F,      KC.G,         KC.H,       KC.J,       KC.K,       KC.L,   KC.QUOTE,
-HOLD_Z_SHIFT, KC.X,     KC.C,      KC.V,      KC.B,         KC.N,       KC.M,       KC.COMMA,   KC.DOT, HOLD_SLASH_SHIFT,
-                    TO_ONE,    KC.LCTRL,  HOLD_ENTER_OPT,    HOLD_SPACE_GUI,   HOLD_BSPACE_DELWORD,  _____
+HOLD_Q_ESC,   KC.W,         KC.E,         KC.R,         KC.T,           KC.Y,  KC.U,        KC.I,         KC.O,           KC.P,
+KC.A,         HOLD_S_LCTRL, HOLD_D_LALT,  HOLD_F_LGUI,  KC.G,           KC.H,  HOLD_J_LGUI, HOLD_K_LALT,  HOLD_L_LCTRL,   KC.QUOTE,
+HOLD_Z_SHIFT, KC.X,         KC.C,         KC.V,         KC.B,           KC.N,  KC.M,        KC.COMMA,     KC.DOT,         HOLD_SLASH_SHIFT,
+                    
+                    TO_NUM,    TO_MOVE,  KC.ENTER,           KC.SPACE,   HOLD_BSPACE_DELWORD,  KC.TAB
+],
+
+#                                           NUM LAYER
+[
+_____,    _____,    _____,    KC.LBRC,    KC.RBRC,           KC.N1,      KC.N2,    KC.N3,      KC.N0,      KC.BSLASH,
+_____,    KC.LCTRL, KC.LALT,  KC.LGUI,    _____,             KC.N4,      KC.N5,    KC.N6,      KC.EQL,     KC.SCOLON,
+KC.LSHIFT,_____,    _____,    _____,      KC.TAB,            KC.N7,      KC.N8,    KC.N9,      KC.MINS,    KC.SLASH,    
+                      
+                      TO_ALPHA,    TO_MOVE,  KC.LSHIFT,      _____,      KC.BSPACE,_____
 ],
 
 
-#                                           LAYER 2
+#                                           MOVE LAYER
 [
-KC.PGUP,   _____,  KC.UP,     _____,       KC.LCTL,    KC.EQL,   KC.N7,      KC.N8,    KC.N9,     _____,
-KC.PGDOWN, KC.LEFT,  KC.DOWN,   KC.RIGHT,  KC.LALT,    _____,  KC.N4,      KC.N5,    KC.N6,  _____,
-KC.LBRC,   KC.RBRC,  KC.BSLASH, KC.SCOLON, KC.TAB,     KC.N0,    KC.N1,      KC.N2,    KC.N3,  KC.ESC,    
-                     TO_ZERO,   KC.LCTRL,   HOLD_ENTER_OPT,   HOLD_SPACE_GUI, HOLD_BSPACE_DELWORD,  KC.BT_NXT
-]
+KC.BLE_REFRESH,  KC.BLE_DISCONNECT, _____,   _____,     _____,            _____,    WORD_LEFT,   KC.UP,     WORD_RIGHT,   _____,
+KC.HID_SWITCH,   KC.LCTRL,          KC.LALT, KC.LGUI,   _____,            _____,    KC.LEFT,     KC.DOWN,   KC.RIGHT,     _____,
+_____,           _____,             _____,   _____,     _____,            _____,    KC.HOME,     KC.PGDOWN, KC.END,       _____,
+
+                                 TO_NUM,   TO_ALPHA,   KC.LSHIFT,        _____,   KC.BSPACE,    _____
+],
 ]
 
 
 if __name__ == '__main__':
-    keyboard.go(
-        hid_type=HIDModes.USB,
-        secondary_hid_type=HIDModes.BLE,
-        ble_name='Flexible Determinist'
+   keyboard.go(
+     hid_type=HIDModes.BLE,
+     secondary_hid_type=HIDModes.USB,
+     ble_name='FlxDet'
     )
-    # keyboard.go()
+
+  #  keyboard.go(
+  #    hid_type=HIDModes.USB,
+  #    secondary_hid_type=HIDModes.BLE
+  #   )
+#   keyboard.go()

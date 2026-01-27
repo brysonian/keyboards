@@ -526,7 +526,7 @@
       "plot": "gerbers/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "flexible-determinist.step",
+      "step": "../../../../../Desktop/flexible-determinist.step",
       "svg": "",
       "vrml": ""
     },
