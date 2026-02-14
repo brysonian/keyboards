@@ -16,7 +16,7 @@ from kmk.modules.holdtap import HoldTap
 # SETUP THE MATRIX
 keyboard = KMKKeyboard()
 keyboard.diode_orientation = DiodeOrientation.COL2ROW
-keyboard.col_pins = (board.A2, board.A3, board.D11, board.D12, board.D9)
+keyboard.col_pins = (board.SCK, board.A3, board.D11, board.D12, board.D9)
 keyboard.row_pins = (board.D5, board.D6, board.D10, board.D13, board.A5, board.A4, board.A1, board.A0)
 
 keyboard.coord_mapping = [
@@ -76,7 +76,8 @@ WORD_RIGHT = KC.LALT(KC.RIGHT)
 
 # HOLD
 keyboard.modules.append(HoldTap())
-HOLD_Q_ESC = KC.HT(KC.Z, KC.ESC)
+# HOLD_Q_ESC = KC.HT(KC.Q, KC.ESC)
+HOLD_ESC_Q = KC.HT(KC.ESC, KC.Q)
 HOLD_Z_SHIFT = KC.HT(KC.Z, KC.LSHIFT)
 HOLD_SLASH_SHIFT = KC.HT(KC.SLASH, KC.RSHIFT)
 HOLD_BSPACE_DELWORD = KC.HT(KC.BSPACE, DELETE_WORD)
@@ -94,7 +95,7 @@ HOLD_L_LCTRL = KC.HT(KC.L, KC.LCTRL)
 keyboard.keymap = [
 #                                          ALPHA LAYER
 [
-HOLD_Q_ESC,   KC.W,         KC.E,         KC.R,         KC.T,           KC.Y,  KC.U,        KC.I,         KC.O,           KC.P,
+HOLD_ESC_Q,   KC.W,         KC.E,         KC.R,         KC.T,           KC.Y,  KC.U,        KC.I,         KC.O,           KC.P,
 KC.A,         HOLD_S_LCTRL, HOLD_D_LALT,  HOLD_F_LGUI,  KC.G,           KC.H,  HOLD_J_LGUI, HOLD_K_LALT,  HOLD_L_LCTRL,   KC.QUOTE,
 HOLD_Z_SHIFT, KC.X,         KC.C,         KC.V,         KC.B,           KC.N,  KC.M,        KC.COMMA,     KC.DOT,         HOLD_SLASH_SHIFT,
                     
@@ -113,9 +114,9 @@ KC.LSHIFT,_____,    _____,    _____,      KC.TAB,            KC.N7,      KC.N8, 
 
 #                                           MOVE LAYER
 [
-KC.BLE_REFRESH,  KC.BLE_DISCONNECT, _____,   _____,     _____,            _____,    WORD_LEFT,   KC.UP,     WORD_RIGHT,   _____,
-KC.HID_SWITCH,   KC.LCTRL,          KC.LALT, KC.LGUI,   _____,            _____,    KC.LEFT,     KC.DOWN,   KC.RIGHT,     _____,
-_____,           _____,             _____,   _____,     _____,            _____,    KC.HOME,     KC.PGDOWN, KC.END,       _____,
+KC.HID_SWITCH, _____ , _____,   _____,     _____,            _____,    WORD_LEFT,   KC.UP,     WORD_RIGHT,   _____,
+KC.BLE_REFRESH,   KC.LCTRL,          KC.LALT, KC.LGUI,   _____,            _____,    KC.LEFT,     KC.DOWN,   KC.RIGHT,     _____,
+KC.BLE_DISCONNECT,           _____,             _____,   _____,     _____,            _____,    KC.HOME,     KC.PGDOWN, KC.END,       _____,
 
                                  TO_NUM,   TO_ALPHA,   KC.LSHIFT,        _____,   KC.BSPACE,    _____
 ],
