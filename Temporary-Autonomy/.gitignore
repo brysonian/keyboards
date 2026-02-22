@@ -3,3 +3,4 @@
 *.kicad_pcb.lck
 **/ergogen/output/pcbs
 cbm-laser-job-*
+*.tmp
