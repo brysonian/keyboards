@@ -9,8 +9,10 @@ from kmk.hid import HIDModes
 from kmk.extensions.RGB import RGB
 from kmk.extensions.rgb import AnimationModes
 from kmk.modules.layers import Layers
-# from kmk.modules.combos import Combos, Chord
+from kmk.modules.combos import Combos, Chord
 from kmk.modules.holdtap import HoldTap
+from kmk.modules.tapdance import TapDance
+from kmk.modules.macros import Macros
 
 
 # SETUP THE MATRIX
@@ -62,20 +64,24 @@ TO_ALPHA = KC.MO(0)
 TO_NUM = KC.MO(1)
 TO_MOVE = KC.MO(2)
 
-# CHORDS
-combos = Combos()
-combos.combos = [
-    Chord((KC.BKDL, KC.SPACE), KC.LEFT, timeout=100),
-    Chord((KC.TAB, KC.SPACE), KC.RIGHT, timeout=100),
-]
-keyboard.modules.append(combos)
-
 # More tools
 keyboard.modules.append(HoldTap())
 tapdance = TapDance()
 tapdance.tap_time = 750
 keyboard.modules.append(tapdance)
+
 keyboard.modules.append(Macros())
+
+# CHORDS
+SUPER_TAB = KC.HT(KC.TAB, KC.LGUI(KC.GRAVE), tap_time=150)
+combos = Combos()
+combos.combos = [
+    Chord((KC.BKDL, KC.SPACE), KC.LEFT, timeout=100),
+    Chord((SUPER_TAB, KC.SPACE), KC.RIGHT, timeout=100),
+]
+keyboard.modules.append(combos)
+
+
 
 # KEYMAP
  
@@ -86,7 +92,7 @@ KC.TD(KC.Q, KC.ESC),    KC.W,                  KC.E,                 KC.R,      
 KC.A,                   KC.HT(KC.S, KC.LCTRL), KC.HT(KC.D, KC.LALT), KC.HT(KC.F, KC.LGUI), KC.G, KC.H,  KC.HT(KC.J, KC.LGUI), KC.HT(KC.K, KC.LALT), KC.HT(KC.L, KC.LCTRL), KC.QUOTE,
 KC.HT(KC.Z, KC.LSHIFT), KC.X,                  KC.C,                 KC.V,                 KC.B, KC.N,  KC.M,                 KC.COMMA,             KC.DOT,                KC.HT(KC.SLASH, KC.RSHIFT),
                     
-                    TO_NUM,    TO_MOVE,  KC.ENTER,           KC.SPACE,   KC.BKDL,  KC.HT(KC.TAB, KC.LGUI(KC.GRAVE))
+                    TO_NUM,    TO_MOVE,  KC.ENTER,           KC.SPACE,   KC.BKDL,  SUPER_TAB
 ],
 
 #                                           NUM LAYER
